@@ -31,16 +31,18 @@ const fp = flatpickr(elements.input, {
     } else {
       elements.btn.disabled = false;
       elements.btn.addEventListener('click', () => {
+        const selectedDate = selectedDates[0];
         const timerId = setInterval(() => {
           const currentTime = new Date();
-          const ms = selectedDates[0].getTime - currentTime.getTime();
-          elements.days.textContent = addLeadingZero(convertMs(ms).days);
-          elements.hours.textContent = addLeadingZero(convertMs(ms).hours);
-          elements.minutes.textContent = addLeadingZero(convertMs(ms).min);
-          elements.seconds.textContent = addLeadingZero(convertMs(ms).sec);
+          const ms = selectedDate.getTime() - currentTime.getTime();
           if (ms < 1000) {
             clearInterval(timerId);
+            return;
           }
+          elements.days.textContent = addLeadingZero(convertMs(ms).days);
+          elements.hours.textContent = addLeadingZero(convertMs(ms).hours);
+          elements.minutes.textContent = addLeadingZero(convertMs(ms).minutes);
+          elements.seconds.textContent = addLeadingZero(convertMs(ms).seconds);
         }, 1000);
       });
     }
@@ -61,6 +63,6 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-// function addLeadingZero(number) {
-//   return ('0' + number).slice(-2);
-// }
+function addLeadingZero(value) {
+  return String(value).padStart(2, '0');
+}
