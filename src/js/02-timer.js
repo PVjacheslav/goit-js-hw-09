@@ -35,7 +35,7 @@ const fp = flatpickr(elements.input, {
         const timerId = setInterval(() => {
           const currentTime = new Date();
           const ms = selectedDate.getTime() - currentTime.getTime();
-          if (ms < 1000) {
+          if (ms <= 0) {
             clearInterval(timerId);
             return;
           }
